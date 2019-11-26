@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xy.oa.mapper.SysOrgMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.xy.oa.entity.SysOrg">
+        <id column="org_id" property="orgId"/>
+        <result column="org_parent_id" property="orgParentId"/>
+        <result column="org_parent_name" property="orgParentName"/>
+        <result column="org_name" property="orgName"/>
+        <result column="org_desc" property="orgDesc"/>
+        <result column="flag" property="flag"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        org_id, org_parent_id, org_parent_name, org_name, org_desc, flag, create_time, update_time
+    </sql>
+    <select id="selectCountByIds" resultType="long">
+        select count(*) from sys_org where flag=1 and org_parent_id in
+        <foreach collection="list" open="(" separator="," close=")" item="id">
+            #{id}
+        </foreach>
+    </select>
+
+</mapper>

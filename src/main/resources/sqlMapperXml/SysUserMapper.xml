@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.xy.oa.mapper.SysUserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.xy.oa.entity.SysUser">
+        <id column="user_id" property="userId"/>
+        <result column="org_id" property="orgId"/>
+        <result column="user_name" property="userName"/>
+        <result column="user_password" property="userPassword"/>
+        <result column="phone" property="phone"/>
+        <result column="email" property="email"/>
+        <result column="birthday" property="birthday"/>
+        <result column="sex" property="sex"/>
+        <result column="image_url" property="imageUrl"/>
+        <result column="hobby" property="hobby"/>
+        <result column="province_id" property="provinceId"/>
+        <result column="province_name" property="provinceName"/>
+        <result column="city_id" property="cityId"/>
+        <result column="city_name" property="cityName"/>
+        <result column="country_id" property="countryId"/>
+        <result column="country_name" property="countryName"/>
+        <result column="introduce" property="introduce"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+        <result column="flag" property="flag"/>
+    </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        user_id, org_id, user_name, user_password, phone, email, birthday, sex, image_url, hobby, province_id, province_name, city_id, city_name, country_id, country_name, introduce, create_time, update_time, flag
+    </sql>
+    <select id="pageByRoleId" resultType="com.xy.oa.entity.SysUser">
+        SELECT u.* from sys_user u
+        INNER  JOIN  sys_role_user ru on u.user_id =ru.user_id
+        where ru.role_id=#{roleId}
+    </select>
+
+
+</mapper>
