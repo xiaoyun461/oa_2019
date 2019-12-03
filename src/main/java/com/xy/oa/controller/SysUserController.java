@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.google.gson.Gson;
 import com.xy.oa.common.SysResult;
+import com.xy.oa.entity.SysMenu;
 import com.xy.oa.entity.SysUser;
 import com.xy.oa.service.SysUserService;
 import lombok.extern.slf4j.Slf4j;
@@ -39,6 +40,20 @@ public class SysUserController {
     @Autowired
     private SysUserService sysUserService;
 
+    @RequestMapping("login")
+    public String login(SysUser user, Model model) {
+        SysUser currentUser = sysUserService.getOne(Wrappers.<SysUser>lambdaQuery()
+                .eq(SysUser::getUserName, user.getUserName())
+                .eq(SysUser::getUserPassword, user.getUserPassword()));
+        if (currentUser == null) {
+            model.addAttribute("msg", "用户名或者密码错误");
+            return "login";
+        }
+        List<SysMenu> menus = sysUserService.listMenusByUserId(currentUser.getUserId());
+        model.addAttribute("menus", menus);
+        return "index";
+    }
+
 
     @RequestMapping("pageByCondition")
     public String pageByCondition(@RequestParam(required = false) String userName,
@@ -60,7 +75,7 @@ public class SysUserController {
 
         if (null != datemax || null != datemin) {
             if (null == datemax) {
-                params.put("datemin", datemin.toString() );
+                params.put("datemin", datemin.toString());
                 datemax = LocalDate.now();
             }
             if (null == datemin) {
@@ -70,7 +85,7 @@ public class SysUserController {
             query.between(SysUser::getBirthday, datemin, datemax);
         }
 
-        IPage<SysUser> pageInfo = sysUserService.page(new Page<>(page.getCurrent(), 1), query);
+        IPage<SysUser> pageInfo = sysUserService.page(new Page<>(page.getCurrent(), page.getSize()), query);
         model.addAttribute("pageInfo", pageInfo);
         model.addAttribute("url", "sysUser/pageByCondition");
 

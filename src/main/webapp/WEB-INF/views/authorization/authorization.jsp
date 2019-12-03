@@ -51,14 +51,14 @@
     </div>
     <div class="cl pd-5 bg-1 bk-gray mt-20">
         <span class="l">
-            <a href="javascript:;" onclick="admin_add('添加授权','admin-add.html','800','500')"
+            <a href="javascript:;"
+               onclick="admin_role_add_user('授权新用户','authorization/getNoAuthUsersByRoleId','800','500')"
                class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 授权新用户
             </a>
             <a href="javascript:;" onclick="admin_add('添加授权','admin-add.html','800','500')"
                class="btn btn-primary radius"><i class="Hui-iconfont">&#xe600;</i> 授权新菜单
             </a>
         </span>
-        <span class="r">共有数据：<strong>54</strong> 条</span>
     </div>
     <table class="table table-border table-bordered table-bg" id="authorization">
         <!-- 动态填充,用户，菜单-->
@@ -108,57 +108,28 @@
         h		弹出层高度（缺省调默认值）
     */
     /*授权-增加*/
-    function admin_add(title, url, w, h) {
-        layer_show(title, url, w, h);
+    function admin_role_add_user(title, url, w, h) {
+        //给url 添加查询参数
+        var role = $("#role").val();
+        var type = $("#type").val();
+        if (role == -1) {
+            layer.msg('请选择角色', {icon: 2, time: 2000});
+            return;
+        } else if (type == -1) {
+            layer.msg('请选择授权类型', {icon: 2, time: 2000});
+            return;
+        }
+        if (type == 1) {
+            url = url + "?roleId=" + role;
+            layer_show(title, url, w, h);
+        } else {
+            layer.msg('当前选择的授权类型不是用户', {icon: 2, time: 2000});
+            return;
+        }
+
     }
 
-    /*授权-删除*/
-    function admin_del(obj, id) {
-        layer.confirm('确认要删除吗？', function (index) {
-            $.ajax({
-                type: 'POST',
-                url: '',
-                dataType: 'json',
-                success: function (data) {
-                    $(obj).parents("tr").remove();
-                    layer.msg('已删除!', {icon: 1, time: 1000});
-                },
-                error: function (data) {
-                    console.log(data.msg);
-                },
-            });
-        });
-    }
 
-    /*授权-编辑*/
-    function admin_edit(title, url, id, w, h) {
-        layer_show(title, url, w, h);
-    }
-
-    /*授权-停用*/
-    function admin_stop(obj, id) {
-        layer.confirm('确认要停用吗？', function (index) {
-            //此处请求后台程序，下方是成功后的前台处理……
-
-            $(obj).parents("tr").find(".td-manage").prepend('<a onClick="admin_start(this,id)" href="javascript:;" title="启用" style="text-decoration:none"><i class="Hui-iconfont">&#xe615;</i></a>');
-            $(obj).parents("tr").find(".td-status").html('<span class="label label-default radius">已禁用</span>');
-            $(obj).remove();
-            layer.msg('已停用!', {icon: 5, time: 1000});
-        });
-    }
-
-    /*授权-启用*/
-    function admin_start(obj, id) {
-        layer.confirm('确认要启用吗？', function (index) {
-            //此处请求后台程序，下方是成功后的前台处理……
-
-
-            $(obj).parents("tr").find(".td-manage").prepend('<a onClick="admin_stop(this,id)" href="javascript:;" title="停用" style="text-decoration:none"><i class="Hui-iconfont">&#xe631;</i></a>');
-            $(obj).parents("tr").find(".td-status").html('<span class="label label-success radius">已启用</span>');
-            $(obj).remove();
-            layer.msg('已启用!', {icon: 6, time: 1000});
-        });
-    }
 </script>
 </body>
 </html>

@@ -6,6 +6,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html>
 <head>
     <title>hello</title>
@@ -72,52 +73,26 @@
 </header>
 <aside class="Hui-aside">
     <div class="menu_dropdown bk_2">
-        <dl id="menu-admin">
-            <dt><i class="Hui-iconfont">&#xe62d;</i> 基础数据管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
-            <dd>
-                <ul>
-                    <li><a data-href="sysOrg/pageByCondition" data-title="组织管理" href="javascript:void(0)">组织管理</a></li>
-                    <li><a data-href="sysUser/pageByCondition" data-title="管理员列表" href="javascript:void(0)">员工管理</a>
-                    </li>
-                </ul>
-            </dd>
-        </dl>
-        <dl id="menu-admin1">
-            <dt><i class="Hui-iconfont">&#xe62d;</i> 权限管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
-            <dd>
-                <ul>
-                    <li><a data-href="sysOrg/pageByCondition" data-title="组织管理" href="javascript:void(0)">角色管理</a></li>
-                    <li><a data-href="admin-list.html" data-title="管理员列表" href="javascript:void(0)">菜单管理</a></li>
-                    <li><a data-href="authorization/showPage" data-title="管理员列表" href="javascript:void(0)">权授管理</a></li>
-                </ul>
-            </dd>
-        </dl>
-        <dl id="menu-tongji">
-            <dt><i class="Hui-iconfont">&#xe61a;</i> 系统统计<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
-            <dd>
-                <ul>
-                    <li><a data-href="charts-1.html" data-title="折线图" href="javascript:void(0)">折线图</a></li>
-                    <li><a data-href="charts-2.html" data-title="时间轴折线图" href="javascript:void(0)">时间轴折线图</a></li>
-                    <li><a data-href="charts-3.html" data-title="区域图" href="javascript:void(0)">区域图</a></li>
-                    <li><a data-href="charts-4.html" data-title="柱状图" href="javascript:void(0)">柱状图</a></li>
-                    <li><a data-href="charts-5.html" data-title="饼状图" href="javascript:void(0)">饼状图</a></li>
-                    <li><a data-href="charts-6.html" data-title="3D柱状图" href="javascript:void(0)">3D柱状图</a></li>
-                    <li><a data-href="charts-7.html" data-title="3D饼状图" href="javascript:void(0)">3D饼状图</a></li>
-                </ul>
-            </dd>
-        </dl>
-        <dl id="menu-system">
-            <dt><i class="Hui-iconfont">&#xe62e;</i> 系统管理<i class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i></dt>
-            <dd>
-                <ul>
-                    <li><a data-href="system-base.html" data-title="系统设置" href="javascript:void(0)">系统设置</a></li>
-                    <li><a data-href="system-category.html" data-title="栏目管理" href="javascript:void(0)">栏目管理</a></li>
-                    <li><a data-href="system-data.html" data-title="数据字典" href="javascript:void(0)">数据字典</a></li>
-                    <li><a data-href="system-shielding.html" data-title="屏蔽词" href="javascript:void(0)">屏蔽词</a></li>
-                    <li><a data-href="system-log.html" data-title="系统日志" href="javascript:void(0)">系统日志</a></li>
-                </ul>
-            </dd>
-        </dl>
+        <c:forEach items="${menus}" var="menu1">
+            <c:if test="${menu1.menuType ==1}">
+                <dl id="menu-admin">
+                    <dt><i class="Hui-iconfont">&#xe62d;</i> ${menu1.menuName}<i
+                            class="Hui-iconfont menu_dropdown-arrow">&#xe6d5;</i>
+                    </dt>
+                    <dd>
+                        <ul>
+                            <c:forEach items="${menus}" var="menu2">
+                                <c:if test="${menu2.menuType == 2 && menu2.menuParentId == menu1.menuId}">
+                                    <li><a data-href="${menu2.menuPath}" data-title="组织管理"
+                                           href="javascript:void(0)">${menu2.menuName}</a>
+                                    </li>
+                                </c:if>
+                            </c:forEach>
+                        </ul>
+                    </dd>
+                </dl>
+            </c:if>
+        </c:forEach>
     </div>
 </aside>
 <div class="dislpayArrow hidden-xs"><a class="pngfix" href="javascript:void(0);" onClick="displaynavbar(this)"></a>

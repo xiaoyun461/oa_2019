@@ -1,14 +1,17 @@
 package com.xy.oa.entity;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
 import com.baomidou.mybatisplus.annotation.TableId;
+
 import java.time.LocalDateTime;
 import java.io.Serializable;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author xiaoyun461
@@ -24,9 +27,9 @@ public class SysRoleUser extends Model<SysRoleUser> {
     private Long roleId;
 
     private Long userId;
-
+    @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
-
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
 
 
@@ -78,11 +81,11 @@ public class SysRoleUser extends Model<SysRoleUser> {
     @Override
     public String toString() {
         return "SysRoleUser{" +
-        "roleUserRelId=" + roleUserRelId +
-        ", roleId=" + roleId +
-        ", userId=" + userId +
-        ", createTime=" + createTime +
-        ", updateTime=" + updateTime +
-        "}";
+                "roleUserRelId=" + roleUserRelId +
+                ", roleId=" + roleId +
+                ", userId=" + userId +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                "}";
     }
 }

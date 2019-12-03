@@ -5,6 +5,7 @@ import com.xy.oa.entity.SysUser;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.time.LocalDate;
 import java.util.List;
 
 /**
@@ -18,4 +19,6 @@ import java.util.List;
 public interface SysUserMapper extends BaseMapper<SysUser> {
 
     Page<SysUser> pageByRoleId(Page page, @Param("roleId") Long roleId);
+
+    Page<SysUser> pageNoAuthByRoleId(Page page, @Param("roleId") Long roleId, @Param("userName") String userName, @Param("datemin") String datemin, @Param("datemax") String datemax);
 }

@@ -4,20 +4,33 @@
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.xy.oa.entity.SysMenu">
-        <id column="menu_id" property="menuId" />
-        <result column="menu_parent_id" property="menuParentId" />
-        <result column="menu_name" property="menuName" />
-        <result column="menu_type" property="menuType" />
-        <result column="menu_path" property="menuPath" />
-        <result column="menu_desc" property="menuDesc" />
-        <result column="is_publish" property="isPublish" />
-        <result column="create_time" property="createTime" />
-        <result column="update_time" property="updateTime" />
+        <id column="menu_id" property="menuId"/>
+        <result column="menu_parent_id" property="menuParentId"/>
+        <result column="menu_name" property="menuName"/>
+        <result column="menu_type" property="menuType"/>
+        <result column="menu_path" property="menuPath"/>
+        <result column="menu_desc" property="menuDesc"/>
+        <result column="is_publish" property="isPublish"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
     </resultMap>
 
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
         menu_id, menu_parent_id, menu_name, menu_type, menu_path, menu_desc, is_publish, create_time, update_time
     </sql>
+    <select id="listMenusByUserId" resultType="com.xy.oa.entity.SysMenu">
+        select m.menu_id,m.menu_name,m.menu_path,m.menu_type,m.menu_parent_id
+        from
+        sys_menu m,
+        sys_role_user ru,
+        sys_role_menu rm
+        where
+        ru.user_id = #{userId}
+        and rm.role_id = ru.role_id
+        and rm.menu_id = m.menu_id
+        and m.menu_parent_id != -1
+    </select>
+
 
 </mapper>

@@ -35,6 +35,25 @@
         INNER  JOIN  sys_role_user ru on u.user_id =ru.user_id
         where ru.role_id=#{roleId}
     </select>
+    <select id="pageNoAuthByRoleId" resultType="com.xy.oa.entity.SysUser">
+        select u.* from sys_user u
+        where
+        u.user_id not in
+        (
+        select ru.user_id from sys_role_user ru
+        where ru.role_id =#{roleId}
+        )
+        <if test="userName!=null and userName!=''">
+            and u.user_name like concat ('%',#{userName},'%')
+        </if>
+        <if test="datemin!=null and datemin!=''">
+            and u.birthday &gt;= #{datemin}
+        </if>
+        <if test="datemax!=null and datemax!=''">
+            and u.birthday &lt;= #{datemax}
+        </if>
+
+    </select>
 
 
 </mapper>
